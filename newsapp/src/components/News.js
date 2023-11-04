@@ -36,10 +36,10 @@ export class News extends Component {
     this.props.setProgress(10);
     const url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=83729ee702064a5c9b2a1111eb89903f&page=1&pageSize=${this.props.pageSize}`;
     this.setState({ loading: true });
-      let data = await fetch(url);
-      this.props.setProgress(30);
-      let parseData = await data.json();
-      this.props.setProgress(70);
+    let data = await fetch(url);
+    this.props.setProgress(30);
+    let parseData = await data.json();
+    this.props.setProgress(70);
     this.setState({
       articles: parseData.articles,
       totalResults: parseData.totalResults,
@@ -72,26 +72,35 @@ export class News extends Component {
     this.updateNews();
   };
 
-  fetchMoreData = async () => {
-      this.setState({ page: this.state.page + 1 });
-      this.props.setProgress(10);
-    const url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=83729ee702064a5c9b2a1111eb89903f&page=1&pageSize=${this.props.pageSize}`;
+    fetchMoreData = async () => {
+      console.log(this.state.page + 1);
+    this.props.setProgress(10);
+    const url = `https://newsapi.org/v2/top-headlines?country=${
+      this.props.country
+    }&category=${
+      this.props.category
+    }&apiKey=83729ee702064a5c9b2a1111eb89903f&page=${this.state.page + 1}&pageSize=${
+      this.props.pageSize
+          }`;
+      
+    this.setState({ page: this.state.page + 1 });
+
     this.setState({ loading: true });
-      let data = await fetch(url);
-      this.props.setProgress(30);
-      let parseData = await data.json();
-      this.props.setProgress(70);
+    let data = await fetch(url);
+    this.props.setProgress(30);
+    let parseData = await data.json();
+    this.props.setProgress(70);
     this.setState({
       articles: this.state.articles.concat(parseData.articles),
       totalResults: parseData.totalResults,
       loading: false,
     });
-      this.props.setProgress(100);
+    this.props.setProgress(100);
   };
   render() {
     return (
       <>
-        <h1 className="text-center" style={{ margin: "35px 0px" }}>
+        <h1 className="text-center" style={{ margin: "35px 0px", marginTop: "8%" }}>
           NewsMonkey - Top Headlines from
           {" " + this.capitalizeFirstLetter(this.props.category)}
         </h1>
